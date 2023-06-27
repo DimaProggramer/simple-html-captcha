@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Captcha oh yeah</title>
+    <style>
+        #captcha-container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        #captcha-input {
+            margin-top: 10px;
+        }
+
+        #success-page {
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="captcha-container">
+        <canvas id="captcha"></canvas>
+        <input type="text" id="captcha-input">
+        <button onclick="checkCaptcha()">lets check</button>
+    </div>
+
+    <div id="success-page" style="display: none;">
+        <h1>Rock are respect you</h1>
+        <p>nice work</p>
+    </div>
+    <script>
+        function generateNumber() {
+            return Math.floor(Math.random() * 10);
+        }
+        function drawCaptcha() {
+            var canvas = document.getElementById("captcha");
+            var ctx = canvas.getContext("2d");
+            var numbers = [];
+            for (var i = 0; i < 6; i++) {
+                var number = generateNumber();
+                numbers.push(number);
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = 0; i < 6; i++) {
+                var x = i * 50 + 20;
+                var y = 50;
+                ctx.font = "48px Arial";
+                ctx.fillText(numbers[i], x, y);
+                ctx.beginPath();
+                ctx.moveTo(x - 10, y - 30);
+                ctx.lineTo(x + 30, y + 30);
+                ctx.moveTo(x - 10, y + 30);
+                ctx.lineTo(x + 30, y - 30);
+                ctx.stroke();
+            }
+
+            return numbers.join("");
+        }
+        function checkCaptcha() {
+            var userInput = document.getElementById("captcha-input").value;
+            var captchaValue = document.getElementById("captcha").getAttribute("data-captcha");
+
+            if (userInput === captchaValue) {
+                document.getElementById("captcha-container").style.display = "none";
+                document.getElementById("success-page").style.display = "block";
+            } else {
+                alert("you are bot lol");
+                resetCaptcha();
+            }
+        }
+        function resetCaptcha() {
+            var captchaInput = document.getElementById("captcha-input");
+            captchaInput.value = "";
+            captchaInput.focus();
+
+            var captchaCanvas = document.getElementById("captcha");
+            captchaCanvas.setAttribute("data-captcha", drawCaptcha());
+        }
+
+            window.onload = function() {
+            resetCaptcha();
+         };
+    </script>
+</body>
+</html>
