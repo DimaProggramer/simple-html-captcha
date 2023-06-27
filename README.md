@@ -1,2 +1,3 @@
-Hello!
-for this code, install express first (npm install express) and run its node server.js
+requements: nodejs, git
+\ncommands: mkdir captcha & cd captcha & git clone https://github.com/DimaProggramer/simple-html-\ncaptcha.git & npm install expresss 
+\nrun: node server.js
